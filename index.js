@@ -26,15 +26,20 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model('Message', messageSchema);
 
+
+
 app.use(express.static(path.join(__dirname, "public")))
 
 const expressServer = app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`)
+  console.log(`listening on port ${PORT}`)
 })
 
 //web socket server
-const io = new Server(expressServer)
-
+const io = new Server(expressServer, {
+  cors : {
+      origin: "*"
+  }
+})
 //when client connect with server
 io.on('connection', async (socket) => {
     console.log(`User ${socket.id} connected`)
