@@ -8,6 +8,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
  
 const PORT = process.env.PORT || 8080
+const ADMIN = "Admin"
+const room = "room"
 
 const app = express()
 
@@ -45,9 +47,23 @@ io.on('connection', async (socket) => {
     //Upon connection - only to user
     socket.emit('message', "Welcome to Chat App!")
 
-    //Upon connection - to all others
-    socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} connected`)
-    
+    socket.on('enterRoom', ({ name }) => {
+      const user = activateUser(socket.id, name, room)
+      socket.join(room)
+      
+      //Upon joining room - only to user
+      socket.emit('message', buildMsg(ADMIN, `You have joined the Chat App`))
+      
+      //Upon joining room - To everyone else 
+      socket.broadcast.to(room).emit('message', buildMsg(ADMIN, `${user.name} has joined the Chat App`))
+      
+      // Update user list for room
+      io.to(room).emit('userList', {
+        users: getUsersInRoom(room)
+      })
+
+    })
+
     try {
         // Retrieve message history from MongoDB
         const messages = await Message.find().sort({ timestamp: 1 }).exec();
@@ -61,16 +77,16 @@ io.on('connection', async (socket) => {
     }
 
     //Listening for a message event
-    socket.on('message', async (data) => {
-        console.log(data)
+    socket.on('message', async ({ name, text }) => {
+        console.log(text)
         const message = new Message({
-          user: socket.id.substring(0, 5),
-          message: data,
+          user: name,
+          message: text,
         })
       
         try {
           await message.save();
-          io.emit('message', `${socket.id.substring(0, 5)} : ${data}`);//emit to socket.on(message for everyone)
+          io.to(room).emit('message', buildMsg(name, text));//emit to socket.on(message for everyone)
         } catch (error) {
           console.error('Error saving message to MongoDB:', error)
         }
@@ -78,8 +94,23 @@ io.on('connection', async (socket) => {
 
     //When user disconnects - to all others
     socket.on('disconnect', () => {
-        console.log(`User ${socket.id} disconnected`)
-        socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} disconnected`)
+      const user = getUser(socket.id)
+      userLeavesApp(socket.id)
+
+      if (user) {
+          io.to(room).emit('message', buildMsg(ADMIN, `${user.name} has left the Chat App`))
+
+          io.to(room).emit('userList', {
+              users: getUsersInRoom(room)
+          })
+
+          io.emit('roomList', {
+              rooms: getAllActiveRooms()
+          })
+      }
+
+      console.log(`User ${socket.id} disconnected`)
+
     })
 
     //Listen for activity
@@ -87,3 +118,24 @@ io.on('connection', async (socket) => {
         socket.broadcast.emit('activity',name)
     })
 })
+
+function activateUser(id, name) {
+  const user = { id, name }
+  UsersState.setUsers([
+      ...UsersState.users.filter(user => user.id !== id),
+      user
+  ])
+  return user
+}
+
+function buildMsg(name, text) {
+  return {
+      name,
+      text,
+      time: new Intl.DateTimeFormat('default', {
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+      }).format(new Date())
+  }
+}
