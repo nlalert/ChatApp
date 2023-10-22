@@ -37,9 +37,10 @@ const expressServer = app.listen(PORT, () => {
 //web socket server
 const io = new Server(expressServer, {
   cors : {
-      origin: "*"
+    origin: "*"
   }
 })
+let typing = []
 //when client connect with server
 io.on('connection', async (socket) => {
     console.log(`User ${socket.id} connected`)
@@ -80,12 +81,16 @@ io.on('connection', async (socket) => {
 
     //When user disconnects - to all others
     socket.on('disconnect', () => {
-        console.log(`User ${socket.id} disconnected`)
-        socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} disconnected`)
+      console.log(`User ${socket.id} disconnected`)
+      socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} disconnected`)
     })
 
     //Listen for activity
     socket.on('activity', (name) =>{
-        socket.broadcast.emit('activity',name)
+      if(!typing.includes(name)){
+        typing.push(name)
+      }
+      console.log(typing)
+      socket.broadcast.emit('activity',name,typing)
     })
 })
