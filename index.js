@@ -91,6 +91,6 @@ io.on('connection', async (socket) => {
         typing.push(name)
       }
       console.log(typing)
-      socket.broadcast.emit('activity',name,typing)
+      socket.broadcast.emit('activity',typing)
     })
 })
