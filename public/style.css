@@ -103,7 +103,7 @@ button {
 }
 
 .post__text {
-    margin-top: 5px;
+    margin-top: 15px;
     color: #333;
     padding: .25rem .5rem;
 }
@@ -120,4 +120,10 @@ button {
 
 .activity {
     font-style: italic;
+}
+
+.back-home {
+    position: absolute;
+    top: 0;
+    right: 0;
 }
