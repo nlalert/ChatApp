@@ -7,7 +7,7 @@ const msgInput = document.querySelector('input')
 function sendMessage(e) {
     e.preventDefault()
     if(msgInput.value){
-        socket.emit('message', msgInput.value)//socket.on(message)
+        socket.emit('message', socket.id, msgInput.value)//socket.on(message)
         msgInput.value = ""
     }
     msgInput.focus()
