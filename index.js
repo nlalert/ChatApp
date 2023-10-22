@@ -11,12 +11,13 @@ const PORT = process.env.PORT || 8080
 
 const app = express()
 
+//connect to MongoDB
 mongoose.connect('mongodb+srv://chatuser:GEBBxGJwp67HADQG@cluster0.mx9kas7.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-
+//Create schema for message
 const messageSchema = new mongoose.Schema({
   user: String,
   message: String,
@@ -32,20 +33,16 @@ const expressServer = app.listen(PORT, () => {
 })
 
 //web socket server
-const io = new Server(expressServer, {
-    cors : {
-        origin: process.env.NODE_ENV === "production" ? false : ["http://localhost:5500","http://127.0.0.1:5500"]
-    }
-})
+const io = new Server(expressServer)
 
-//connection
+//when client connect with server
 io.on('connection', async (socket) => {
     console.log(`User ${socket.id} connected`)
     
-    //Upon connection - only to user
+    //only to user
     socket.emit('message', "Welcome to Chat App!")
 
-    //Upon connection - to all others
+    //to all others except user
     socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} connected`)
     
     try {
@@ -61,16 +58,16 @@ io.on('connection', async (socket) => {
     }
 
     //Listening for a message event
-    socket.on('message', async (data) => {
-        console.log(data)
+    socket.on('message', async (name, data) => {
+        console.log(name + data)
         const message = new Message({
-          user: socket.id.substring(0, 5),
+          user: name,
           message: data,
         })
       
         try {
           await message.save();
-          io.emit('message', `${socket.id.substring(0, 5)} : ${data}`);//emit to socket.on(message for everyone)
+          io.emit('message', `${name} : ${data}`);//emit to socket.on(message for everyone)
         } catch (error) {
           console.error('Error saving message to MongoDB:', error)
         }
