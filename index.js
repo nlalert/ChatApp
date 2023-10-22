@@ -40,7 +40,11 @@ const io = new Server(expressServer, {
     origin: "*"
   }
 })
+
+
+
 let typing = []
+
 //when client connect with server
 io.on('connection', async (socket) => {
     console.log(`User ${socket.id} connected`)
@@ -72,7 +76,7 @@ io.on('connection', async (socket) => {
         })
       
         try {
-          await message.save();
+          // await message.save();
           io.emit('message', `${name} : ${data}`);//emit to socket.on(message for everyone)
         } catch (error) {
           console.error('Error saving message to MongoDB:', error)
@@ -91,6 +95,10 @@ io.on('connection', async (socket) => {
         typing.push(name)
       }
       console.log(typing)
-      socket.broadcast.emit('activity',typing)
+      socket.broadcast.emit('activity', name, typing)
+    })
+
+    socket.on('deleteTyping', (name) =>{
+      typing.splice(typing.indexOf(name), 1)
     })
 })

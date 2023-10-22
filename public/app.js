@@ -28,11 +28,13 @@ msgInput.addEventListener('keypress', () => {
 })
 
 let activityTimer
-socket.on('activity', (typing) =>{
-    activity.textContent = `${name} is typing...`
+socket.on('activity', (name, typingUser) =>{
+    
+    activity.textContent = `${typingUser} is typing...`
     //Clear after 1 seconds
     clearTimeout(activityTimer)
     activityTimer = setTimeout(() => {
+        socket.emit('deleteTyping', name)
         activity.textContent = ""
-    }, 5000)
+    }, 2000)
 })
