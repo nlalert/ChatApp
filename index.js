@@ -1,4 +1,3 @@
-//Kuy Teb
 import express from 'express'
 import { Server } from "socket.io"
 import path from 'path'
