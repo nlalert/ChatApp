@@ -50,10 +50,10 @@ io.on('connection', async (socket) => {
     console.log(`User ${socket.id} connected`)
     
     //only to user
-    socket.emit('message', "Welcome to Chat App!")
+    socket.emit('welcomeMessage')
 
     //to all others except user
-    socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} connected`)
+    socket.broadcast.emit('message', buildMsg(socket.id.substring(0,5), "connected"))
     
     try {
         // Retrieve message history from MongoDB
@@ -61,23 +61,23 @@ io.on('connection', async (socket) => {
     
         // Send message history to the connecting user
         messages.forEach((message) => {
-          socket.emit('message', `${message.user} : ${message.message}`);
+          socket.emit('message', buildMsg(`${message.user}`, `${message.message}`));
         });
       } catch (error) {
         console.error('Error retrieving message history from MongoDB:', error);
     }
 
     //Listening for a message event
-    socket.on('message', async (name, data) => {
-        console.log(name + data)
+    socket.on('message', async ({name, text}) => {
+        console.log(name + text)
         const message = new Message({
           user: name,
-          message: data,
+          message: text,
         })
       
         try {
-          // await message.save();
-          io.emit('message', `${name} : ${data}`);//emit to socket.on(message for everyone)
+          await message.save();
+          io.emit('message', buildMsg(name, text))
         } catch (error) {
           console.error('Error saving message to MongoDB:', error)
         }
@@ -86,7 +86,7 @@ io.on('connection', async (socket) => {
     //When user disconnects - to all others
     socket.on('disconnect', () => {
       console.log(`User ${socket.id} disconnected`)
-      socket.broadcast.emit('message', `User ${socket.id.substring(0,5)} disconnected`)
+      socket.broadcast.emit('message', buildMsg(socket.id.substring(0,5), "disconnected"))
     })
 
     //Listen for activity
@@ -102,3 +102,15 @@ io.on('connection', async (socket) => {
       typing.splice(typing.indexOf(name), 1)
     })
 })
+
+function buildMsg(name, text) {
+  return {
+      name,
+      text,
+      time: new Intl.DateTimeFormat('default', {
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+      }).format(new Date())
+  }
+}

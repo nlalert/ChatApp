@@ -34,6 +34,16 @@ msgInput.addEventListener('keypress', () => {
     socket.emit('activity', nameInput.value)
 })
 
+socket.on("welcomeMessage", () => {
+    activity.textContent = ""
+    const li = document.createElement('li')
+    
+    li.innerHTML = `<div class="post__text">"Welcome to Chat App!"</div>`
+    document.querySelector('.chat-display').appendChild(li)
+
+    chatDisplay.scrollTop = chatDisplay.scrollHeight
+})
+
 // Listen for messages 
 socket.on("message", (data) => {
     activity.textContent = ""
@@ -70,37 +80,3 @@ socket.on('activity', (name, typingUser) =>{
         activity.textContent = ""
     }, 3000)
 })
-
-socket.on('userList', ({ users }) => {
-    showUsers(users)
-})
-
-socket.on('roomList', ({ rooms }) => {
-    showRooms(rooms)
-})
-
-function showUsers(users) {
-    usersList.textContent = ''
-    if (users) {
-        usersList.innerHTML = `<em>Users in ${chatRoom.value}:</em>`
-        users.forEach((user, i) => {
-            usersList.textContent += ` ${user.name}`
-            if (users.length > 1 && i !== users.length - 1) {
-                usersList.textContent += ","
-            }
-        })
-    }
-}
-
-function showRooms(rooms) {
-    roomList.textContent = ''
-    if (rooms) {
-        roomList.innerHTML = '<em>Active Rooms:</em>'
-        rooms.forEach((room, i) => {
-            roomList.textContent += ` ${room}`
-            if (rooms.length > 1 && i !== rooms.length - 1) {
-                roomList.textContent += ","
-            }
-        })
-    }
-}
