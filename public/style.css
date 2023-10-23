@@ -9,7 +9,6 @@
 body {
     background-color: #000;
     color: #fff;
-    overflow: hidden;
 }
 
 main {
@@ -29,9 +28,7 @@ form {
     gap: .25rem;
 }
 
-
 input {
-    width: 100%;
     flex-grow: 1;
     max-width: calc(80% - .25rem);
 }
@@ -43,7 +40,7 @@ button {
 input,
 button {
     border-radius: 10px;
-    padding: 0.5rem;
+    padding: .5rem;
 }
 
 .chat-display {
@@ -53,7 +50,7 @@ button {
     max-width: 600px;
     border-radius: 10px;
     margin: 1rem auto;
-    padding: 10;
+    padding: 0;
     display: flex;
     flex-flow: column;
     justify-content: left;
@@ -78,6 +75,10 @@ button {
 .post--right {
     width: 60%;
     align-self: flex-end;
+}
+
+.post--center {
+    align-self: center;
 }
 
 .post__header {
@@ -106,13 +107,22 @@ button {
 }
 
 .post__text {
-    margin-top: 15px;
+    margin-top: 5px;
     color: #333;
     padding: .25rem .5rem;
 }
 
-.user-list,
-/* .room-list, */
+.post__Admin {
+    margin-top: 5px;
+    color: #fff;
+    padding: .25rem .5rem;
+    margin-bottom: 5px;
+}
+
+
+/* .user-list,
+.room-list, */
+
 .activity {
     width: 100%;
     min-height: 2.65rem;
@@ -124,38 +134,3 @@ button {
 .activity {
     font-style: italic;
 }
-
-.back-home {
-    position: absolute;
-    top: 10;
-    right: 0;
-}
-
-.web {
-    font-size: 7rem;
-    text-align: center;
-    margin-top: 5rem; 
-    font-family: Harrington;
-}
-
-.form-join {
-    max-width: 450px;
-    flex-flow: column;
-    align-items: center; 
-    gap: 1rem; 
-    margin-top: 23rem;
-}
-
-#join {
-    font-family: Harrington;
-    font-weight: bolder;
-}
-
-.bg {
-    background-image: url("https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 25rem;
-    background-position-y: 10rem;
-    
-}  

@@ -1,47 +1,60 @@
-const socket = new io('https://chat-app-bp41.onrender.com')
+const socket = new io('ws://localhost:8080')
 
-const msgInput = document.querySelector('#message')
 const nameInput = document.querySelector('#name')
+const msgInput = document.querySelector('#message')
 const activity = document.querySelector('.activity')
-const usersList = document.querySelector('.user-list')
 const chatDisplay = document.querySelector('.chat-display')
+const formMsg = document.querySelector('.form-msg')
+formMsg.style.visibility = "hidden";
+chatDisplay.style.visibility = "hidden";
 
-//emit message to 
 function sendMessage(e) {
     e.preventDefault()
-    if(msgInput.value){
-        socket.emit('message', msgInput.value)//socket.on(message)
+    if (msgInput.value) {
+        socket.emit('message', (msgInput.value))
         msgInput.value = ""
     }
     msgInput.focus()
 }
 
-function enterRoom(e) {
+function join(e) {
     e.preventDefault()
     if (nameInput.value) {
-        socket.emit('enterRoom', {
-            name: nameInput.value,
-        })
+        socket.emit('join', (nameInput.value))
+        document.querySelector('.form-join').style.visibility = "hidden";
+        chatDisplay.style.visibility = "visible";
+        formMsg.style.visibility = "visible";
     }
 }
 
-document.querySelector('form').addEventListener('submit', sendMessage)
-
 document.querySelector('.form-join')
-    .addEventListener('submit', enterRoom)
+    .addEventListener('submit', join)
+
+document.querySelector('.form-msg')
+    .addEventListener('submit', sendMessage)
 
 msgInput.addEventListener('keypress', () => {
-    socket.emit('activity', nameInput.value)
+    socket.emit('activity')
 })
 
-//Listen for message
+socket.on("welcomeMessage", () => {
+    activity.textContent = ""
+    const li = document.createElement('li')
+    
+    li.innerHTML = `<div class="post__text">"Welcome to Chat App!"</div>`
+    document.querySelector('.chat-display').appendChild(li)
+
+    chatDisplay.scrollTop = chatDisplay.scrollHeight
+})
+
+// Listen for messages 
 socket.on("message", (data) => {
     activity.textContent = ""
     const { name, text, time } = data
     const li = document.createElement('li')
     li.className = 'post'
-    if (name === nameInput.value) li.className = 'post post--left'
-    if (name !== nameInput.value && name !== 'Admin') li.className = 'post post--right'
+    if (name === nameInput.value) li.className = 'post post--right'
+    if (name !== nameInput.value && name !== 'Admin') li.className = 'post post--left'
     if (name !== 'Admin') {
         li.innerHTML = `<div class="post__header ${name === nameInput.value
             ? 'post__header--user'
@@ -52,7 +65,8 @@ socket.on("message", (data) => {
         </div>
         <div class="post__text">${text}</div>`
     } else {
-        li.innerHTML = `<div class="post__text">${text}</div>`
+        li.className = 'post--center'
+        li.innerHTML = `<div class="post__Admin">${text}</div>`
     }
     document.querySelector('.chat-display').appendChild(li)
 
@@ -60,28 +74,13 @@ socket.on("message", (data) => {
 })
 
 let activityTimer
-socket.on('activity', (name) =>{
-    activity.textContent = `${name} is typing...`
+socket.on('activity', (name, typingUser) =>{
+    
+    activity.textContent = `${typingUser} is typing...`
     //Clear after 1 seconds
     clearTimeout(activityTimer)
     activityTimer = setTimeout(() => {
+        socket.emit('deleteTyping', name)
         activity.textContent = ""
-    }, 1500)
+    }, 3000)
 })
-
-socket.on('userList', ({ users }) => {
-    showUsers(users)
-})
-
-function showUsers(users) {
-    usersList.textContent = ''
-    if (users) {
-        usersList.innerHTML = `<em>Users in ${chatRoom.value}:</em>`
-        users.forEach((user, i) => {
-            usersList.textContent += ` ${user.name}`
-            if (users.length > 1 && i !== users.length - 1) {
-                usersList.textContent += ","
-            }
-        })
-    }
-}

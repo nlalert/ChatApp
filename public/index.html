@@ -9,32 +9,20 @@
     <script defer src="app.js"></script>
 </head>
 <body>
-    <div class="bg">
-        <h1 class="web">Web Chat</h1>
-        <main>
-            <form class="form-join">
-                <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
-                <button id="join" type="submit">Join</button>
-            </form>
-        </main>
-    </div>
-    
+    <main>
+        <form class="form-join">
+            <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
+            <button type="submit">Join</button>
+        </form>
+        <form class="form-msg" id ="form-msg">
+            <input type="text" id="message" placeholder="Your message" required>
+            <button type="submit" id="messageBtn">Send</button>
+        </form>
 
-    <script>
-        const formJoin = document.querySelector('.form-join');
-        const nameInput = document.querySelector('#name');
-    
-        formJoin.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (nameInput.value) {
-                localStorage.setItem('username', nameInput.value);
-                window.location.href = 'chat.html';
-            }
-        });
-    </script>   
+        <ul class="chat-display"></ul>
+
+        <p class="activity"></p>
+
+    </main>
 </body>
-</html> 
-
-
-
-
+</html>
