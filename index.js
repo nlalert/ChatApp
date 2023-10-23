@@ -43,15 +43,18 @@ let typing = []
 
 //when client connect with server
 io.on('connection', async (socket) => {
+  let userName
     console.log(`User ${socket.id} connected`)
     
-    //only to user
-    socket.emit('welcomeMessage')
+    socket.on('join', async (name) => {
+      userName = name
+      console.log(userName + " connected")
+      //only to user
+      socket.emit('welcomeMessage')
 
-    //to all others except user
-    socket.broadcast.emit('message', buildMsg(socket.id.substring(0,5), "connected"))
-    
-    try {
+      //to all others except user
+      socket.broadcast.emit('message', buildMsg(name, "connected"))
+      try {
         // Retrieve message history from MongoDB
         const messages = await Message.find().sort({ timestamp: 1 }).exec();
     
@@ -64,20 +67,21 @@ io.on('connection', async (socket) => {
         });
       } catch (error) {
         console.error('Error retrieving message history from MongoDB:', error);
-    }
+      }
+    })
 
     //Listening for a message event
-    socket.on('message', async ({name, text}) => {
-        console.log(name + text)
+    socket.on('message', async (text) => {
+        console.log(userName + text)
         const message = new Message({
-          user: name,
+          user: userName,
           message: text,
           timestamp: Date.now()
         })
       
         try {
           await message.save();
-          io.emit('message', buildMsg(name, text))
+          io.emit('message', buildMsg(userName, text))
         } catch (error) {
           console.error('Error saving message to MongoDB:', error)
         }
@@ -86,20 +90,20 @@ io.on('connection', async (socket) => {
     //When user disconnects - to all others
     socket.on('disconnect', () => {
       console.log(`User ${socket.id} disconnected`)
-      socket.broadcast.emit('message', buildMsg(socket.id.substring(0,5), "disconnected"))
+      socket.broadcast.emit('message', buildMsg(userName, "disconnected"))
     })
 
     //Listen for activity
-    socket.on('activity', (name) =>{
-      if(!typing.includes(name)){
-        typing.push(name)
+    socket.on('activity', () =>{
+      if(!typing.includes(userName)){
+        typing.push(userName)
       }
       console.log(typing)
-      socket.broadcast.emit('activity', name, typing)
+      socket.broadcast.emit('activity', userName, typing)
     })
 
-    socket.on('deleteTyping', (name) =>{
-      typing.splice(typing.indexOf(name), 1)
+    socket.on('deleteTyping', () =>{
+      typing.splice(typing.indexOf(userName), 1)
     })
 })
 

@@ -1,37 +1,39 @@
 const socket = new io('ws://localhost:8080')
 
-const msgInput = document.querySelector('#message')
 const nameInput = document.querySelector('#name')
+const msgInput = document.querySelector('#message')
 const activity = document.querySelector('.activity')
 const chatDisplay = document.querySelector('.chat-display')
+document.getElementById("form-msg").style.visibility = "hidden";
 
 function sendMessage(e) {
+    console.log("WORKKKKK")
     e.preventDefault()
-    if (nameInput.value && msgInput.value) {
-        socket.emit('message', {
-            name: nameInput.value,
-            text: msgInput.value
-        })
+    if (msgInput.value) {
+        socket.emit('message', (msgInput.value))
         msgInput.value = ""
     }
     msgInput.focus()
 }
 
-function enterRoom(e) {
+function join(e) {
+    console.log("AAAAAA")
     e.preventDefault()
-    if (nameInput.value && chatRoom.value) {
-        socket.emit('enterRoom', {
-            name: nameInput.value,
-            room: chatRoom.value
-        })
+    if (nameInput.value) {
+        socket.emit('join', (nameInput.value))
+        document.querySelector('.form-join').remove(); 
+        document.getElementById("form-msg").style.visibility = "visible";
     }
 }
+
+document.querySelector('.form-join')
+    .addEventListener('submit', join)
 
 document.querySelector('.form-msg')
     .addEventListener('submit', sendMessage)
 
 msgInput.addEventListener('keypress', () => {
-    socket.emit('activity', nameInput.value)
+    socket.emit('activity')
 })
 
 socket.on("welcomeMessage", () => {

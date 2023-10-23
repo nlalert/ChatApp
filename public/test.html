@@ -6,7 +6,7 @@
     <title>Websockets</title>
     <link href="style.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js" integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script defer src="app.js"></script>
+    <script defer src="index.js"></script>
 </head>
 <body>
     <main>
@@ -14,15 +14,6 @@
             <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
             <button type="submit">Join</button>
         </form>
-        <form class="form-msg" id ="form-msg">
-            <input type="text" id="message" placeholder="Your message" required>
-            <button type="submit" id="messageBtn">Send</button>
-        </form>
-
-        <ul class="chat-display"></ul>
-
-        <p class="activity"></p>
-
     </main>
 </body>
 </html>
