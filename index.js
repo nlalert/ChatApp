@@ -26,8 +26,6 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model('Message', messageSchema);
 
-
-
 app.use(express.static(path.join(__dirname, "public")))
 
 const expressServer = app.listen(PORT, () => {
@@ -40,8 +38,6 @@ const io = new Server(expressServer, {
     origin: "*"
   }
 })
-
-
 
 let typing = []
 
@@ -61,7 +57,10 @@ io.on('connection', async (socket) => {
     
         // Send message history to the connecting user
         messages.forEach((message) => {
-          socket.emit('message', buildMsg(`${message.user}`, `${message.message}`));
+          socket.emit('message', {
+            name :`${message.user}`,
+            text : `${message.message}`,
+            time : `${message.timestamp}`});
         });
       } catch (error) {
         console.error('Error retrieving message history from MongoDB:', error);
@@ -73,6 +72,7 @@ io.on('connection', async (socket) => {
         const message = new Message({
           user: name,
           message: text,
+          timestamp: Date.now()
         })
       
         try {
