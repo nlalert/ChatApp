@@ -44,8 +44,6 @@ let typing = []
 //when client connect with server
 io.on('connection', async (socket) => {
   let userName
-    console.log(`User ${socket.id} connected`)
-    
     socket.on('join', async (name) => {
       userName = name
       console.log(userName + " connected")
@@ -53,7 +51,7 @@ io.on('connection', async (socket) => {
       socket.emit('welcomeMessage')
 
       //to all others except user
-      socket.broadcast.emit('message', buildMsg(name, "connected"))
+      socket.broadcast.emit('message', buildMsg(userName, "connected"))
       try {
         // Retrieve message history from MongoDB
         const messages = await Message.find().sort({ timestamp: 1 }).exec();
@@ -102,8 +100,8 @@ io.on('connection', async (socket) => {
       socket.broadcast.emit('activity', userName, typing)
     })
 
-    socket.on('deleteTyping', () =>{
-      typing.splice(typing.indexOf(userName), 1)
+    socket.on('deleteTyping', (name) =>{
+      typing.splice(typing.indexOf(name), 1)
     })
 })
 

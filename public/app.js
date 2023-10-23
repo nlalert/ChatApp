@@ -4,10 +4,11 @@ const nameInput = document.querySelector('#name')
 const msgInput = document.querySelector('#message')
 const activity = document.querySelector('.activity')
 const chatDisplay = document.querySelector('.chat-display')
-document.getElementById("form-msg").style.visibility = "hidden";
+const formMsg = document.querySelector('.form-msg')
+formMsg.style.visibility = "hidden";
+chatDisplay.style.visibility = "hidden";
 
 function sendMessage(e) {
-    console.log("WORKKKKK")
     e.preventDefault()
     if (msgInput.value) {
         socket.emit('message', (msgInput.value))
@@ -17,12 +18,12 @@ function sendMessage(e) {
 }
 
 function join(e) {
-    console.log("AAAAAA")
     e.preventDefault()
     if (nameInput.value) {
         socket.emit('join', (nameInput.value))
-        document.querySelector('.form-join').remove(); 
-        document.getElementById("form-msg").style.visibility = "visible";
+        document.querySelector('.form-join').style.visibility = "hidden";
+        chatDisplay.style.visibility = "visible";
+        formMsg.style.visibility = "visible";
     }
 }
 
