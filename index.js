@@ -73,7 +73,7 @@ io.on('connection', async (socket) => {
 
     //Listening for a message event
     socket.on('message', async (text) => {
-        console.log(userName + text)
+        console.log(userName + " : " + text)
         const message = new Message({
           user: userName,
           message: text,
