@@ -90,7 +90,7 @@ io.on('connection', async (socket) => {
 
     //When user disconnects - to all others
     socket.on('disconnect', () => {
-      console.log(`User ${socket.id} disconnected`)
+      console.log(userName + " disconnected")
       socket.broadcast.emit('message', buildMsg(ADMIN, ` ${userName} has left the ChatApp`))
     })
 

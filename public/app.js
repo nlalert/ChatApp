@@ -41,16 +41,6 @@ msgInput.addEventListener('keypress', () => {
     socket.emit('activity')
 })
 
-socket.on("welcomeMessage", () => {
-    activity.textContent = ""
-    const li = document.createElement('li')
-    
-    li.innerHTML = `<div class="post__text">"Welcome to Chat App!"</div>`
-    document.querySelector('.chat-display').appendChild(li)
-
-    chatDisplay.scrollTop = chatDisplay.scrollHeight
-})
-
 // Listen for messages 
 socket.on("message", (data) => {
     activity.textContent = ""
