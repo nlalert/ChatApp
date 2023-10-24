@@ -9,20 +9,23 @@
     <script defer src="app.js"></script>
 </head>
 <body>
+    <h1 class="web">Web Chat</h1>
+    <div class="bg">
     <main>
         <form class="form-join">
             <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
             <button type="submit">Join</button>
         </form>
+        
+        <ul class="chat-display"></ul>
+        
         <form class="form-msg" id ="form-msg">
             <input type="text" id="message" placeholder="Your message" required>
             <button type="submit" id="messageBtn">Send</button>
         </form>
-
-        <ul class="chat-display"></ul>
-
+        
         <p class="activity"></p>
-
     </main>
+    </div>
 </body>
 </html>

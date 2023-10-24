@@ -1,5 +1,7 @@
 const socket = new io('ws://localhost:8080')
 
+const fontWeb = document.querySelector('.web')
+const bg = document.querySelector('.bg')
 const nameInput = document.querySelector('#name')
 const msgInput = document.querySelector('#message')
 const activity = document.querySelector('.activity')
@@ -22,6 +24,8 @@ function join(e) {
     if (nameInput.value) {
         socket.emit('join', (nameInput.value))
         document.querySelector('.form-join').style.visibility = "hidden";
+        document.querySelector('.bg').style.visibility = "hidden";
+        document.querySelector('.web').style.visibility = "hidden";
         chatDisplay.style.visibility = "visible";
         formMsg.style.visibility = "visible";
     }

@@ -9,6 +9,7 @@
 body {
     background-color: #000;
     color: #fff;
+    overflow: hidden;
 }
 
 main {
@@ -48,14 +49,28 @@ button {
     list-style-type: none;
     width: 100%;
     max-width: 600px;
+    max-height: 70vh;
     border-radius: 10px;
-    margin: 1rem auto;
+    /* margin-top: -50vh; */
     padding: 0;
-    display: flex;
+    display:  flex;
     flex-flow: column;
     justify-content: left;
     overflow: auto;
     flex-grow: 1;
+    align-self: center;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-msg{
+    margin-top: 10vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .post {
@@ -133,4 +148,33 @@ button {
 
 .activity {
     font-style: italic;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bg {
+    background-image: url("https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25rem;
+    background-position-y: 3rem;
+    position: relative;
+}
+
+.form-join {
+    /* margin-top: 25rem; */
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.web {
+    font-size: 7rem;
+    text-align: center;
+    font-family: Harrington;
+    margin-top: 10vh;
+    /* position: absolute; */
 }
