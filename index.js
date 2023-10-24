@@ -8,6 +8,7 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
  
 const PORT = process.env.PORT || 8080
+const ADMIN = "Admin"
 
 const app = express()
 
@@ -47,11 +48,6 @@ io.on('connection', async (socket) => {
     socket.on('join', async (name) => {
       userName = name
       console.log(userName + " connected")
-      //only to user
-      socket.emit('welcomeMessage')
-
-      //to all others except user
-      socket.broadcast.emit('message', buildMsg(userName, "connected"))
       try {
         // Retrieve message history from MongoDB
         const messages = await Message.find().sort({ timestamp: 1 }).exec();
@@ -66,6 +62,13 @@ io.on('connection', async (socket) => {
       } catch (error) {
         console.error('Error retrieving message history from MongoDB:', error);
       }
+
+      //only to user
+      socket.emit('message', buildMsg(ADMIN, `Welcome to ChatApp ${userName}`))
+  
+      //to all others except user
+      socket.broadcast.emit('message', buildMsg(ADMIN, ` ${userName} has joined the ChatApp`))
+
     })
 
     //Listening for a message event
@@ -88,7 +91,7 @@ io.on('connection', async (socket) => {
     //When user disconnects - to all others
     socket.on('disconnect', () => {
       console.log(`User ${socket.id} disconnected`)
-      socket.broadcast.emit('message', buildMsg(userName, "disconnected"))
+      socket.broadcast.emit('message', buildMsg(ADMIN, ` ${userName} has left the ChatApp`))
     })
 
     //Listen for activity
