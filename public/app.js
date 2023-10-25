@@ -1,4 +1,4 @@
-const socket = new io('https://chat-app-bp41.onrender.com/')
+const socket = new io('https://chat-app-2-rxhj.onrender.com/')
 
 const fontWeb = document.querySelector('.web')
 const bg = document.querySelector('.bg')
