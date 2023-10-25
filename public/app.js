@@ -46,9 +46,6 @@ let lastTime = null
 socket.on("message", (data) => {
     activity.textContent = ""
     let { name, text, time } = data
-    console.log(time)
-    if(time.length > 10)
-        time = time.substring(15,24).trim()
     const li = document.createElement('li')
     li.className = 'post'
     if(time == lastTime){
