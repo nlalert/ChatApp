@@ -109,12 +109,12 @@ button:active {
 }
 
 .post--left {
-    width: 60%;
+    width: 54.225%;
     align-self: flex-start;
 }
 
 .post--right {
-    width: 60%;
+    width: 54.225%;
     align-self: flex-end;
 }
 
