@@ -22,7 +22,7 @@ mongoose.connect('mongodb+srv://chatuser:GEBBxGJwp67HADQG@cluster0.mx9kas7.mongo
 const messageSchema = new mongoose.Schema({
   user: String,
   message: String,
-  timestamp: { type: Date, default: Date.now },
+  timestamp: String,
 });
 
 const Message = mongoose.model('Message', messageSchema);
@@ -50,7 +50,7 @@ io.on('connection', async (socket) => {
       console.log(userName + " connected")
       try {
         // Retrieve message history from MongoDB
-        const messages = await Message.find().sort({ timestamp: 1 }).exec();
+        const messages = await Message.find().sort({ timestamp : 1}).exec();
     
         // Send message history to the connecting user
         messages.forEach((message) => {
@@ -77,7 +77,10 @@ io.on('connection', async (socket) => {
         const message = new Message({
           user: userName,
           message: text,
-          timestamp: Date.now()
+          timestamp: new Intl.DateTimeFormat('default', {
+            hour: 'numeric',
+            minute: 'numeric',
+        },"hour12").format(new Date())
         })
       
         try {
@@ -115,7 +118,6 @@ function buildMsg(name, text) {
       time: new Intl.DateTimeFormat('default', {
           hour: 'numeric',
           minute: 'numeric',
-          second: 'numeric'
-      }).format(new Date())
+      },"hour12").format(new Date())
   }
 }
