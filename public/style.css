@@ -185,19 +185,29 @@ button:active {
     transform: translate(-50%, -50%);
 }
 
-.bg {
+/* .bg {
     background-image: url("https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif");
     background-repeat: no-repeat;
     background-position: center;
     background-size: 25rem;
     background-position-y: 3rem;
     position: relative;
+} */
+
+img {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 400px;
+    height: auto;
 }
 
 .form-join {
     /* margin-top: 25rem; */
     position: absolute;
-    top: 45%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
