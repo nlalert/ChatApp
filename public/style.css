@@ -31,7 +31,7 @@ form {
 
 input {
     flex-grow: 1;
-    background-color: rgb(170, 130, 200);
+    background-color: rgb(125, 100, 175);
     color: rgb(35, 0, 55);
     font-weight: bold;
     max-width: calc(80% - .25rem);
@@ -40,7 +40,7 @@ input {
 }
 
 input:focus{
-    background-color: rgb(145, 95, 180);
+    background-color: rgb(100, 70, 150);
 }
 
 input:-webkit-autofill,
@@ -52,7 +52,7 @@ input:-webkit-autofill:active{
 }
 
 input::placeholder{
-    color: rgb(130, 60, 175);
+    color: rgb(70, 30, 140);
 }
 
 
