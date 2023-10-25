@@ -12,14 +12,14 @@
     <h1 class="web">Web Chat</h1>
     <div class="bg">
     <main>
-        <form class="form-join">
+        <form autocomplete="off" class="form-join">
             <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
             <button type="submit">Join</button>
         </form>
         
         <ul class="chat-display"></ul>
         
-        <form class="form-msg" id ="form-msg">
+        <form autocomplete="off" class="form-msg" id ="form-msg">
             <input type="text" id="message" maxlength="30" placeholder="Your message" required>
             <button type="submit" id="messageBtn">Send</button>
             <p class="activity"></p>

@@ -43,15 +43,6 @@ input:focus{
     background-color: rgb(255, 200, 130);
 }
 
-input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    transition: background-color 5000s;
-    font-weight: bold;
-    -webkit-text-fill-color: rgb(45, 20, 0)!important;
-}
-
 input::placeholder{
     color: rgb(110, 50, 0);
 }
