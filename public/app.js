@@ -41,6 +41,7 @@ msgInput.addEventListener('keypress', () => {
     socket.emit('activity')
 })
 
+let lastTime = null
 // Listen for messages 
 socket.on("message", (data) => {
     activity.textContent = ""
@@ -50,6 +51,14 @@ socket.on("message", (data) => {
         time = time.substring(15,24).trim()
     const li = document.createElement('li')
     li.className = 'post'
+    if(time == lastTime){
+        lastTime = time
+        time = ""
+    }
+    else{
+        lastTime = time
+    }
+    
     if (name === nameInput.value) {
         li.className = 'post--right'
         li.innerHTML = `<div class="post__header">
