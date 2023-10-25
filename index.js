@@ -43,7 +43,8 @@ const io = new Server(expressServer, {
   },
 });
 
-let typing = [];
+let typing = []
+let online = []
 
 //when client connect with server
 io.on("connection", async (socket) => {
@@ -51,6 +52,7 @@ io.on("connection", async (socket) => {
   socket.on("join", async (name) => {
     userName = name;
     console.log(userName + " connected");
+    online.push(userName)
     try {
       // Retrieve message history from MongoDB
       const messages = await Message.find().sort({ timestamp: 1 }).exec();
@@ -69,6 +71,7 @@ io.on("connection", async (socket) => {
 
     //only to user
     socket.emit("message", buildMsg(ADMIN, `Welcome to ChatApp ${userName}`));
+    socket.broadcast.emit("online", userName);
 
     //to all others except user
     socket.broadcast.emit(
@@ -104,7 +107,10 @@ io.on("connection", async (socket) => {
   //When user disconnects - to all others
   socket.on("disconnect", () => {
     console.log(userName + " disconnected");
+
     if (userName) {
+      online.splice(online.indexOf(userName), 1);
+      socket.broadcast.emit("offline", userName);
       socket.broadcast.emit(
         "message",
         buildMsg(ADMIN, ` ${userName} has left the ChatApp`)

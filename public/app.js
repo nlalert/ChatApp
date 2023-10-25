@@ -1,4 +1,4 @@
-const socket = new io("https://chat-app-2-rxhj.onrender.com");
+const socket = new io("ws://localhost:8080");
 
 const fontWeb = document.querySelector(".web");
 const bg = document.querySelector(".bg");
@@ -43,9 +43,22 @@ msgInput.addEventListener("keypress", () => {
     socket.emit("activity");
 });
 
+let online = []
+
+socket.on("online", (name) =>{
+    online.push(name)
+    console.log(online)
+})
+
+socket.on("offline", (name) =>{
+    online.splice(online.indexOf(name), 1);
+    console.log(online)
+})
+
 let lastTime = null;
 let lastName = null;
 let isSameName = false;
+
 // Listen for messages
 socket.on("message", (data) => {
     activity.textContent = "";
