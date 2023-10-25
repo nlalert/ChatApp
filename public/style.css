@@ -100,11 +100,17 @@ button:active {
 }
 
 .post--left {
+    .post--reply.post__text{
+        margin-left: 1rem;
+    }
     width: 54.225%;
     align-self: flex-start;
 }
 
 .post--right {
+    .post--user.post__text{
+        margin-right: 1rem;
+    }
     width: 54.225%;
     align-self: flex-end;
 }
