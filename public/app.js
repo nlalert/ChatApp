@@ -44,7 +44,10 @@ msgInput.addEventListener('keypress', () => {
 // Listen for messages 
 socket.on("message", (data) => {
     activity.textContent = ""
-    const { name, text, time } = data
+    let { name, text, time } = data
+    console.log(time)
+    if(time.length > 10)
+        time = time.substring(15,24).trim()
     const li = document.createElement('li')
     li.className = 'post'
     if (name === nameInput.value) {
@@ -81,5 +84,5 @@ socket.on('activity', (name, typingUser) =>{
     activityTimer = setTimeout(() => {
         socket.emit('deleteTyping', name)
         activity.textContent = ""
-    }, 1000)
+    }, 2000)
 })
