@@ -131,11 +131,13 @@ button:active {
 .post--user {
     background-color: indigo;
     text-align: right;
+    float: right;
 }
 
 .post--reply {
     background-color: rgb(60, 65, 150);
     text-align: left;
+    float: left;
 }
 
 .post__header--name {
