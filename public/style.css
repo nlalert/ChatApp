@@ -10,6 +10,7 @@ body {
     background-color: rgb(255, 235, 190);
     color: #000000;     
     overflow: hidden;
+    text-align: center;
 }
 
 main {
@@ -65,19 +66,19 @@ button:active {
     background-color:white;
     border-color:black;
     border-style:ridge;
+    border-radius: 10px;
     list-style-type: none;
     width: 100%;
     max-width: 600px;
     max-height: 70vh;
-    border-radius: 10px;
     padding: 0;
     display:  flex;
-    flex-flow: column;
     overflow: auto;
+    flex-flow: column;
     flex-grow: 1;
-    align-self: center;
     position: absolute;
-    top: 20%;
+    align-self: center;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -85,7 +86,7 @@ button:active {
 .form-msg{
     margin-top: 10vh;
     position: absolute;
-    top: 50%;
+    top: 80%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
@@ -200,29 +201,53 @@ button:active {
     position: relative;
 } */
 
-img {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    max-width: 400px;
+/* .image {
+    top: 50vh;
+    left: 50vw;
+    width: 20%;
     height: auto;
-}
+    align-self: center;
+} */
 
 .form-join {
     /* margin-top: 25rem; */
     position: absolute;
-    top: 70%;
-    left: 50%;
+    top: 70vh;
+    left: 50vw;
     transform: translate(-50%, -50%);
 }
 
+.icon{
+    width: 2.5rem;
+    height: auto;
+}
+
+.navbar{
+    background-color:darkorange;
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color:black;
+    color: white;
+    text-align: start;
+    font-size: 3rem;
+    font-family:Times;
+    padding: .5rem .5rem;
+}
+
 .web {
-    font-size: 7rem;
-    text-align: center;
+    background-color:darkorange;
+    border: 5px solid rgb(255, 190, 100);
+    color: white; 
+    display: inline-block;
+    border-radius: 10px;
+    font-size: 10rem;
+    font-weight: bold;
     font-family: Harrington;
     margin-top: 10vh;
+    top: 70vh;
+    left: 50vw;
+    padding: .5rem .5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     /* position: absolute; */
 }
 

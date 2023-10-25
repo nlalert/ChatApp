@@ -6,9 +6,12 @@ const nameInput = document.querySelector("#name");
 const msgInput = document.querySelector("#message");
 const activity = document.querySelector(".activity");
 const chatDisplay = document.querySelector(".chat-display");
+const navBarDisplay = document.querySelector(".navbar");
 const formMsg = document.querySelector(".form-msg");
 formMsg.style.visibility = "hidden";
 chatDisplay.style.visibility = "hidden";
+navBarDisplay.style.visibility = "hidden";
+
 
 function sendMessage(e) {
     e.preventDefault();
@@ -28,6 +31,7 @@ function join(e) {
         document.querySelector(".web").style.visibility = "hidden";
         chatDisplay.style.visibility = "visible";
         formMsg.style.visibility = "visible";
+        navBarDisplay.style.visibility = "visible";
     }
 }
 
