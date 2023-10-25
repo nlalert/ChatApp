@@ -1,46 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Chatter</title>
-        <link href="style.css" rel="stylesheet" />
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"
-            integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"></script>
-        <script defer src="app.js"></script>
-    </head>
-    <body>
-        <h1 class="web">Group Chatter</h1>
-        <div class="bg">
-            <main>
-                <img src="https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif">
-                <form autocomplete="off" class="form-join">
-                    <input
-                        type="text"
-                        id="name"
-                        maxlength="8"
-                        placeholder="Your name"
-                        size="5"
-                        required />
-                    <button type="submit">Join</button>
-                </form>
-
-                <ul class="chat-display"></ul>
-
-                <form autocomplete="off" class="form-msg" id="form-msg">
-                    <input
-                        type="text"
-                        id="message"
-                        maxlength="30"
-                        placeholder="Your message"
-                        required />
-                    <button type="submit" id="messageBtn">Send</button>
-                    <p class="activity"></p>
-                </form>
-            </main>
-        </div>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Websockets</title>
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js" integrity="sha512-Xm9qbB6Pu06k3PUwPj785dyTl6oHxgsv9nHp7ej7nCpAqGZT3OZpsELuCYX05DdonFpTlBpXMOxjavIAIUwr0w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <h1 class="navbar">
+    <img class="icon" src="https://png.pngtree.com/png-vector/20230304/ourmid/pngtree-blank-comic-speech-bubble-message-text-box-clipart-vector-png-image_6623148.png">
+    CH </h1>
+    <h1 class="web"> Chatter </h1>
+    <div class="bg">    
+        <main>
+            <!-- <img class="image" src="https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif"> -->
+            <form autocomplete="off" class="form-join">
+                <input type="text" id="name" maxlength="8" placeholder="Your name" size="5" required>
+                <button type="submit">Join</button>
+            </form>
+            
+            <ul class="chat-display"></ul>
+            
+            <form autocomplete="off" class="form-msg" id ="form-msg">
+                <input type="text" id="message" maxlength="30" placeholder="Your message" required>
+                <button type="submit" id="messageBtn">Send</button>
+                <p class="activity"></p>
+            </form>
+            
+        </main>
+    </div>
+</body>
 </html>
