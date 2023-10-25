@@ -212,7 +212,7 @@ button:active {
 .form-join {
     /* margin-top: 25rem; */
     position: absolute;
-    top: 70vh;
+    top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
 }
@@ -266,4 +266,15 @@ button:active {
 ::-webkit-scrollbar-thumb {
     box-shadow: inset 0 0 5px black;
     border-radius: 10px;
+}
+
+.online-users {
+    position: sticky;
+    background-color: #fff;
+    border: 0.5vh solid darkorange;
+    padding: 3vh;
+    border-radius: 1vh;
+    box-shadow: 0 0 5vh rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    width: 5%;
 }

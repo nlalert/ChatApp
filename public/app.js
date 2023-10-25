@@ -8,10 +8,12 @@ const activity = document.querySelector(".activity");
 const chatDisplay = document.querySelector(".chat-display");
 const navBarDisplay = document.querySelector(".navbar");
 const formMsg = document.querySelector(".form-msg");
+const onlineUsersDisplay = document.querySelector(".online-users");
+
 formMsg.style.visibility = "hidden";
 chatDisplay.style.visibility = "hidden";
 navBarDisplay.style.visibility = "hidden";
-
+onlineUsersDisplay.style.visibility = "hidden";
 
 function sendMessage(e) {
     e.preventDefault();
@@ -32,6 +34,7 @@ function join(e) {
         chatDisplay.style.visibility = "visible";
         formMsg.style.visibility = "visible";
         navBarDisplay.style.visibility = "visible";
+        onlineUsersDisplay.style.visibility = "visible";
     }
 }
 
@@ -44,16 +47,28 @@ msgInput.addEventListener("keypress", () => {
 });
 
 let online = []
+function updateUserList() {
+    onlineUsersDisplay.innerHTML = "";
+    online.forEach(user => {
+        const userItem = document.createElement("li");
+        userItem.textContent = user;
+        onlineUsersDisplay.appendChild(userItem);
+    });
+    onlineUsersDisplay.style.height = `${listHeight}vh`;
+}
 
 socket.on("online", (name) =>{
-    online.push(name)
-    console.log(online)
-})
+    online.push(name);
+    updateUserList();
+});
 
 socket.on("offline", (name) =>{
-    online.splice(online.indexOf(name), 1);
-    console.log(online)
-})
+    const index = online.indexOf(name);
+    if (index !== -1) {
+        online.splice(index, 1);
+    }
+    updateUserList();
+});
 
 let lastTime = null;
 let lastName = null;
