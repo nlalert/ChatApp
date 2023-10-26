@@ -68,9 +68,9 @@ button:active {
     border-style:ridge;
     border-radius: 10px;
     list-style-type: none;
-    width: 100%;
-    max-width: 600px;
-    max-height: 70vh;
+    width: 50%;
+    height: 70%;
+    top: 15%;
     padding: 0;
     display:  flex;
     overflow: auto;
@@ -78,17 +78,14 @@ button:active {
     flex-grow: 1;
     position: absolute;
     align-self: center;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .form-msg{
     margin-top: 10vh;
-    position: absolute;
+    width: 50%;
     top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    position: absolute;
+    align-self: center;
 }
 
 .post {
@@ -192,29 +189,10 @@ button:active {
     transform: translate(-50%, -50%);
 }
 
-/* .bg {
-    background-image: url("https://i.pinimg.com/originals/e3/1b/75/e31b752875679b64fce009922f9f0dda.gif");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 25rem;
-    background-position-y: 3rem;
-    position: relative;
-} */
-
-/* .image {
-    top: 50vh;
-    left: 50vw;
-    width: 20%;
-    height: auto;
-    align-self: center;
-} */
-
 .form-join {
     /* margin-top: 25rem; */
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
+    position: relative;
+    top: -30vh;
 }
 
 .icon{
@@ -269,12 +247,17 @@ button:active {
 }
 
 .online-users {
-    position: sticky;
+    position: fixed;
     background-color: #fff;
     border: 0.5vh solid darkorange;
-    padding: 3vh;
+    list-style-type: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 12.5%;
     border-radius: 1vh;
     box-shadow: 0 0 5vh rgba(0, 0, 0, 0.2);
+    top: 15%;
+    right: 76.5%;
     overflow-y: auto;
-    width: 5%;
 }
+
