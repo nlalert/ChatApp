@@ -12,7 +12,6 @@ const ADMIN = "Admin";
 
 const app = express();
 
-//connect to MongoDB
 mongoose.connect(
   "mongodb+srv://chatuser:GEBBxGJwp67HADQG@cluster0.mx9kas7.mongodb.net/?retryWrites=true&w=majority",
   {
@@ -21,7 +20,6 @@ mongoose.connect(
   }
 );
 
-//Create schema for message
 const messageSchema = new mongoose.Schema({
   user: String,
   message: String,
@@ -36,7 +34,6 @@ const expressServer = app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
 
-//web socket server
 const io = new Server(expressServer, {
   cors: {
     origin: "*",
@@ -46,7 +43,6 @@ const io = new Server(expressServer, {
 let typing = []
 let online = []
 
-//when client connect with server
 io.on("connection", async (socket) => {
   let userName;
   socket.on("join", async (name) => {
@@ -54,10 +50,8 @@ io.on("connection", async (socket) => {
     console.log(userName + " connected");
     online.push(userName)
     try {
-      // Retrieve message history from MongoDB
       const messages = await Message.find().sort({ timestamp: 1 }).exec();
 
-      // Send message history to the connecting user
       messages.forEach((message) => {
         socket.emit("message", {
           name: `${message.user}`,
@@ -69,18 +63,16 @@ io.on("connection", async (socket) => {
       console.error("Error retrieving message history from MongoDB:", error);
     }
 
-    //only to user
     socket.emit("message", buildMsg(ADMIN, `Welcome to ChatApp ${userName}`));
-    socket.broadcast.emit("online", userName);
+    socket.emit("setOnline", online);
+    socket.broadcast.emit("setOnline", online);
 
-    //to all others except user
     socket.broadcast.emit(
       "message",
       buildMsg(ADMIN, ` ${userName} has joined the ChatApp`)
     );
   });
 
-  //Listening for a message event
   socket.on("message", async (text) => {
     console.log(userName + " : " + text);
     const message = new Message({
@@ -104,13 +96,13 @@ io.on("connection", async (socket) => {
     }
   });
 
-  //When user disconnects - to all others
   socket.on("disconnect", () => {
     console.log(userName + " disconnected");
 
     if (userName) {
       online.splice(online.indexOf(userName), 1);
-      socket.broadcast.emit("offline", userName);
+      socket.emit("setOffline", online);
+      socket.broadcast.emit("setOffline", online);
       socket.broadcast.emit(
         "message",
         buildMsg(ADMIN, ` ${userName} has left the ChatApp`)
@@ -118,7 +110,6 @@ io.on("connection", async (socket) => {
     }
   });
 
-  //Listen for activity
   socket.on("activity", () => {
     if (!typing.includes(userName)) {
       typing.push(userName);

@@ -48,25 +48,22 @@ msgInput.addEventListener("keypress", () => {
 
 let online = []
 function updateUserList() {
+    console.log("updated")
     onlineUsersDisplay.innerHTML = "";
     online.forEach(user => {
         const userItem = document.createElement("li");
         userItem.textContent = user;
         onlineUsersDisplay.appendChild(userItem);
     });
-    onlineUsersDisplay.style.height = `${listHeight}vh`;
 }
 
-socket.on("online", (name) =>{
-    online.push(name);
+socket.on("setOnline", (nameList) =>{
+    online = nameList
     updateUserList();
 });
 
-socket.on("offline", (name) =>{
-    const index = online.indexOf(name);
-    if (index !== -1) {
-        online.splice(index, 1);
-    }
+socket.on("setOffline", (nameList) =>{
+    online = nameList
     updateUserList();
 });
 
@@ -82,7 +79,6 @@ socket.on("message", (data) => {
     li.className = "post";
     isSameName = (name == lastName);
     lastName = name;
-    console.log(isSameName)
 
     if (time == lastTime) {
         lastTime = time;
